@@ -1,5 +1,6 @@
 import React from 'react';
 import { Conversation } from './CommonTypes';
+import { FolderOpenDot } from 'lucide-react';
 
 interface ChatHeaderProps {
   sidebarOpen: boolean; 
@@ -44,6 +45,17 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
           {activeTitle}
         </h1>
       </div>
+      
+      
+      {/* Ayush:myspacebutton */}
+      <button
+        className="p-1.5 md:p-2 text-blue-500 mr-1"
+        onClick={() => {/* myspacefunction */}}
+      >
+        <FolderOpenDot className="w-6 h-6" />
+      </button>
+
+
     </div>
   );
 };

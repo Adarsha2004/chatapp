@@ -57,7 +57,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ audioUrl }) => {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full pb-1">
       <audio 
         ref={audioRef}
         src={audioUrl}

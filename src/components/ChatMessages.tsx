@@ -19,7 +19,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ messages, messagesEndRef })
             className={`p-2 md:p-3 max-w-[85%] md:max-w-md text-sm md:text-base shadow-lg ${
               msg.role === 'user' 
                 ? 'bg-gradient-to-r from-[#459DDC] to-[#3A7DB5] text-white ml-auto rounded-2xl rounded-tr-sm' 
-                : 'glassmorphism text-[#459DDC]/90 rounded-2xl rounded-tl-sm'
+                : 'bg-gray-800/80 text-[#459DDC]/90 rounded-2xl rounded-tl-sm'
             }`}
           >
             {msg.text}

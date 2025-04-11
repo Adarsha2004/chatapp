@@ -51,14 +51,6 @@
   animation: pulse 1.5s infinite;
 }
 
-/* Glass morphism effects */
-.glassmorphism {
-  background: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
 /* Custom gradient text effect */
 .gradient-text {
   background: linear-gradient(to right, #ffffff, #4da6ff);
@@ -204,44 +196,4 @@ input[type=range]::-moz-range-thumb:hover {
 
 .animate-pulse-slower {
   animation: pulse-slower 12s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Custom audio player styles for MySpace */
-.audio-player::-webkit-media-controls-panel {
-  background-color: rgba(31, 41, 55, 0.5);
-}
-
-.audio-player::-webkit-media-controls-current-time-display,
-.audio-player::-webkit-media-controls-time-remaining-display {
-  color: white;
-}
-
-.audio-player::-webkit-media-controls-play-button,
-.audio-player::-webkit-media-controls-mute-button {
-  filter: invert(1);
-}
-
-.audio-player::-webkit-media-controls-timeline {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-  height: 3px;
-}
-
-.audio-player::-webkit-media-controls-volume-slider {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-  height: 3px;
-}
-
-.audio-player::-webkit-media-controls-volume-slider-container {
-  background-color: rgba(31, 41, 55, 0.5);
-}
-
-.audio-player::-webkit-media-controls-seek-back-button,
-.audio-player::-webkit-media-controls-seek-forward-button {
-  background-color: rgba(31, 41, 55, 0.5);
-}
-
-.audio-player::-webkit-media-controls-fullscreen-button {
-  background-color: rgba(31, 41, 55, 0.5);
 }

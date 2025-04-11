@@ -5,8 +5,6 @@ import ChatHeader from './components/ChatHeader';
 import ChatMessages from './components/ChatMessages';
 import ChatInput from './components/ChatInput';
 import WelcomeScreen from './components/WelcomeScreen';
-import FileManager, { processAudioFile } from './components/FileManager';
-// import { FolderHeart } from 'lucide-react';
 
 const welcomeWords = [
   { text: "Upload", className: "text-sm sm:text-sm md:text-base lg:text-lg" },
@@ -29,10 +27,6 @@ const Chat: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [chatAttachment, setChatAttachment] = useState<File | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
 
   // Set sidebar state based on screen size
   useEffect(() => {
@@ -63,83 +57,6 @@ const Chat: React.FC = () => {
       scrollToBottom();
     }
   }, [messages]);
-
-  useEffect(() => {
-    if (messages.length === 0) {
-      const handleDragOver = (e: DragEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (!isDragging) setIsDragging(true);
-      };
-
-      const handleDragLeave = (e: DragEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (e.relatedTarget === null) {
-          setIsDragging(false);
-        }
-      };
-
-      const handleDrop = (e: DragEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsDragging(false);
-
-        const files = e.dataTransfer?.files;
-        if (files?.length) {
-          processAudioFile(files[0], {
-            onFileProcessed: (newMessage, newConversation) => {
-              setConversations(prev => [...prev, newConversation]);
-              setActiveConversation(newConversation.id);
-              setMessages([newMessage]);
-            },
-            onUploadStatusChange: setUploadStatus,
-            onUploadProgressChange: setUploadProgress,
-            onUploadedFileChange: setUploadedFile,
-            onAddToMySpace: () => {}
-          });
-        }
-      };
-
-      document.addEventListener('dragover', handleDragOver);
-      document.addEventListener('dragleave', handleDragLeave);
-      document.addEventListener('drop', handleDrop);
-
-      return () => {
-        document.removeEventListener('dragover', handleDragOver);
-        document.removeEventListener('dragleave', handleDragLeave);
-        document.removeEventListener('drop', handleDrop);
-      };
-    }
-  }, [messages.length, isDragging]);
-
-  const handleFileProcessed = (newMessage: ChatMessage, newConversation: Conversation) => {
-    setConversations(prev => [...prev, newConversation]);
-    setActiveConversation(newConversation.id);
-    setMessages([newMessage]);
-  };
-
-  const handleAudioUpload = (file: File) => {
-    processAudioFile(file, {
-      onFileProcessed: handleFileProcessed,
-      onUploadStatusChange: setUploadStatus,
-      onUploadProgressChange: setUploadProgress,
-      onUploadedFileChange: setUploadedFile,
-      onAddToMySpace: () => {}
-    });
-  };
-
-  const handleAudioUploadFromInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    handleAudioUpload(file);
-  };
-
-  const resetUpload = () => {
-    setUploadStatus('idle');
-    setUploadProgress(0);
-    setUploadedFile(null);
-  };
 
   const sendMessage = () => {
     if (message.trim() || chatAttachment) {
@@ -211,12 +128,6 @@ const Chat: React.FC = () => {
         <div className={`flex-1 ${messages.length > 0 ? 'overflow-y-auto scrollbar-thin' : 'overflow-hidden'}`}>
           {messages.length === 0 ? (
             <WelcomeScreen 
-              isDragging={isDragging}
-              uploadStatus={uploadStatus}
-              uploadProgress={uploadProgress}
-              uploadedFile={uploadedFile}
-              handleAudioUpload={handleAudioUploadFromInput}
-              resetUpload={resetUpload}
               welcomeWords={welcomeWords}
             />
           ) : (
@@ -233,14 +144,6 @@ const Chat: React.FC = () => {
           sendMessage={sendMessage}
           chatAttachment={chatAttachment}
           setChatAttachment={setChatAttachment}
-        />
-
-        <FileManager 
-          onFileProcessed={handleFileProcessed}
-          onUploadStatusChange={setUploadStatus}
-          onUploadProgressChange={setUploadProgress}
-          onUploadedFileChange={setUploadedFile}
-          onAddToMySpace={() => {}}
         />
       </main>
     </div>
